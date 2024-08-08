@@ -115,6 +115,14 @@ input[type="radio"]:checked::before {
     text-decoration: none;
     display: flex;
     align-items: center;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      margin-left: 13px;
+    }
   }
 
   button {
@@ -126,15 +134,13 @@ input[type="radio"]:checked::before {
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      margin-left: 13px;
+    }
   }
-}
-
-.link-arrow a:hover,
-.link-arrow button:hover {
-  text-decoration: underline;
-}
-
-.link-arrow a img,
-.link-arrow button img {
-  margin-left: 13px;
 }
