@@ -6,6 +6,7 @@ import { Observable, Subject, tap } from 'rxjs';
 import { UserInfoType } from 'src/types/user-info.type';
 import { LogoutResponseType } from 'src/types/logout-response.type';
 import { SignupResponseType } from 'src/types/signup-response.type';
+import { RefreshResponseType } from 'src/types/refresh-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,12 @@ export class AuthService {
     this.isLogged = !!localStorage.getItem(this.accessTokenKey);
   }
 
-  signup(name: string, lastName: string, email: string, password: string): Observable<LoginResponseType> {
+  refresh(): Observable<RefreshResponseType> {
+    const refreshToken: string | null = localStorage.getItem(this.refreshTokenKey);
+    return this.http.post<RefreshResponseType>(environment.apiHost + 'refresh', {refreshToken})
+  }
+
+  signup(name: string, lastName: string, email: string, password: string): Observable<SignupResponseType> {
     return this.http.post<SignupResponseType>(environment.apiHost + 'signup', {
       name,
       lastName,
@@ -79,6 +85,13 @@ export class AuthService {
 
   public removeUserInfo(): void {
     localStorage.removeItem(this.userInfoKey);
+  }
+
+  public getTokens(): { accessToken: string | null, refreshToken: string | null } {
+    return {
+      accessToken: localStorage.getItem(this.accessTokenKey),
+      refreshToken: localStorage.getItem(this.refreshTokenKey),
+    }
   }
 
   public getUserInfo(): UserInfoType | null {
